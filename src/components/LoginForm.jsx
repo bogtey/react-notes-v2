@@ -1,24 +1,16 @@
-// LoginForm.jsx
-
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Login.css';
 import axiosInstance from '../axiosInstance';
 import { AuthContext } from '../contexts/AuthContext';
-import Cookies from 'js-cookie';
 
+const auth = "/auth/signin";
 
-
-const auth = "/auth/signin"; // Используйте относительный URL
-// document.cookie = "jwt=; SameSite=None; Secure";
 const LoginForm = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
- 
-
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async () => {
     try {
@@ -28,26 +20,13 @@ const LoginForm = () => {
       }
 
       const userData = { name, surname };
-      const response = await axiosInstance.post(auth, userData).then(response=>{
-        console.log(response.data);
-        Cookies.set("jwt",  response.data);
-        localStorage.setItem('jwt', response.data);
-        navigate('/poll');
-      //  document.setEl
-      //   const setJwt =document.getElementsByName("jwt")
-      }).catch(response=>{
-        setError("Пользователь не существует");
-      }) // Используйте экземпляр Axios
-      // console.log(response.data);
-      
-      
+      const response = await axiosInstance.post(auth, userData);
+      const token = response.data;
 
+      login(token);
+      navigate('/students');
     } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message || "Ошибка при отправке данных");
-      } else {
-        setError("Ошибка при отправке данных");
-      }
+      setError(error.response?.data.message || "Ошибка при отправке данных");
     }
   };
 

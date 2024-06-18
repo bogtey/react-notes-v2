@@ -47,14 +47,14 @@ export const AuthProvider = ({ children }) => {
     }
   },);
 
-  const login = (tokenData) => {
-    setToken(tokenData);
-    localStorage.setItem('token', tokenData);
+  const login = (token) => {
+    setToken(token);
+    localStorage.setItem('jwt', token);
   };
 
   const logout = () => {
     setToken(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
   };
 
   return (
