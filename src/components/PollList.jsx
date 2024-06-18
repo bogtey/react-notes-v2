@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { Button, ListGroup } from 'react-bootstrap';
+import { Button, ListGroup, FormControl } from 'react-bootstrap'; // Add FormControl here
 import axiosInstance from '../axiosInstance';
 import { AuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 
 const PollList = () => {
   const [polls, setPolls] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // Add searchTerm state
   const [sharedPollId, setSharedPollId] = useState(null); // Состояние для хранения идентификатора опроса, для которого была нажата кнопка "Share"
   const [sharedLink, setSharedLink] = useState('');
   const { token, checkTokenValidity } = useContext(AuthContext);
@@ -57,35 +58,35 @@ const PollList = () => {
     setSharedPollId(pollId); // Устанавливаем идентификатор опроса для кнопки "Share"
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredPolls = polls.filter((poll) =>
+    poll.question.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container">
       <h2>Список студентов</h2>
+      <FormControl
+        type="text"
+        placeholder="Поиск опроса по вопросу"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="mb-3"
+      />
       <Button variant="primary" onClick={fetchPolls} className="mt-3">
         Обновить список
       </Button>
       <ListGroup>
         <br />
-        {polls && polls.length > 0 ? (
-          polls.map((poll) => (
+        {filteredPolls && filteredPolls.length > 0 ? (
+          filteredPolls.map((poll) => (
             <ListGroup.Item key={poll.surveyId}>
               <strong>{poll.question}</strong>
               <br />
-              {poll.note && (
-                <div>
-                  <strong>Основная информация:</strong>
-                  <p>{poll.note}</p>
-                </div>
-              )}
-              {poll.title && (
-                <div>
-                  <strong>Заметки:</strong>
-                  {poll.title.split(', ').map((option, index) => (
-                    <div key={index}>
-                      {index + 1}. {option}
-                    </div>
-                  ))}
-                </div>
-              )}
+              
               <Button
                 variant="danger"
                 onClick={() => deletePoll(poll.surveyId)}
@@ -93,18 +94,7 @@ const PollList = () => {
               >
                 Удалить
               </Button>
-              <Button
-                variant="info"
-                className="mt-2"
-                onClick={() => handleShareClick(poll.surveyId)}
-              >
-                Share
-              </Button>
-              {sharedPollId === poll.surveyId && sharedLink && ( // Проверяем, что кнопка "Share" была нажата для текущего опроса
-                <div className="mt-2">
-                  Ссылка на опрос: <a href={sharedLink} target="_blank" rel="noreferrer">{sharedLink}</a>
-                </div>
-              )}
+              
             </ListGroup.Item>
           ))
         ) : (
