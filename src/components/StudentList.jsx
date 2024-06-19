@@ -328,7 +328,7 @@ const StudentList = () => {
 
   return (
     <div className="container">
-      <h2>Список студентов</h2>
+      <h2>Список ваших студентов</h2>
       <FormControl
         type="text"
         placeholder="Поиск студента по ФИО"
@@ -438,7 +438,7 @@ const StudentList = () => {
                       className="ms-2"
                       onClick={() => handleRemoveTitle(title)}
                     >
-                      Удалить
+                      Убрать
                     </Button>
                   </div>
                 ))}
@@ -456,6 +456,12 @@ const StudentList = () => {
           Добавить студента
         </Button>
       </Link>
+      <div>
+        <br />
+      <Link to="/polls">
+        <button type="button" className="btn btn-primary">Изменить список</button>
+      </Link>
+      </div>
     </div>
   );
 };

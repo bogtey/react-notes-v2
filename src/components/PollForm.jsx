@@ -114,7 +114,7 @@ const PollForm = () => {
         )}
       </Form>
       <br />
-      <Link to="/polls">
+      <Link to="/students">
         <button type="button" className="btn btn-primary">Перейти к списку</button>
       </Link>
     </div>

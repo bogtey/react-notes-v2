@@ -103,9 +103,15 @@ const PollList = () => {
       </ListGroup>
       <Link to="/poll">
         <Button variant="primary" className="mt-3">
-          Создать новое голосование
+          Добавить студента
         </Button>
       </Link>
+      <div>
+      <br />
+      <Link to="/students">
+        <button type="button" className="btn btn-primary">Перейти к списку</button>
+      </Link>
+      </div>
     </div>
   );
 };

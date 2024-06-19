@@ -8,9 +8,9 @@ import RegisterForm from './components/RegisterForm';
 import PollForm from './components/PollForm';
 import PollList from './components/PollList';
 import StudentList from './components/StudentList';
-import AddStudent from './components/AddStudent';
 import AdminPanel from './components/AdminPanel';
-import VotePage from './components/VotePage'; // Импортируем компонент VotePage
+import StudentDetails from './components/StudentDetails';
+import StudentFeed from './components/StudentFeed'; // Импортируем компонент StudentFeed
 import { AuthProvider } from './contexts/AuthContext';
 import Cookies from 'js-cookie';
 
@@ -29,10 +29,10 @@ function App() {
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/poll" element={<PollForm />} />
               <Route path="/polls" element={<PollList />} />
-              <Route path="/vote/:id" element={<VotePage />} /> {/* Добавляем маршрут для страницы VotePage */}
-              <Route path="/admin" element={<AdminPanel/>} />
-              <Route path="/students" element={<StudentList/>} />
-              <Route path="/add-student" component={<AddStudent/>} />
+              <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/students" element={<StudentList />} />
+              <Route path="/student/:id" element={<StudentDetails />} />
+              <Route path="/student-feed" element={<StudentFeed />} /> {/* Добавляем маршрут для страницы ленты студентов */}
             </Routes>
           </div>
         </div>
